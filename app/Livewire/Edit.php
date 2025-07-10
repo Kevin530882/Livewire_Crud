@@ -12,6 +12,16 @@ class Edit extends Component
     public $name = '';
     public $quantity;
     public $price;
+    public $description = '';
+
+    protected $rules = [
+        'code' => 'required|string|max:50|unique:products,code',
+        'name' => 'required|string|max:250',
+        'quantity' => 'required|integer|min:1|max:10000',
+        'price' => 'required|numeric',
+        'description' => 'nullable|string',
+        // 'image'=> 'nullable|image',
+    ];
 
     public function mount(Product $product)
     {
@@ -20,20 +30,16 @@ class Edit extends Component
         $this->name = $product->name;
         $this->quantity = $product->quantity;
         $this->price = $product->price;
+        $this->description = $product->description;
     }
 
     public function save()
     {
-        $validated = $this->validate([
-            'code' => 'required|string|max:50|unique:products,code',
-            'name' => 'required|string|max:250',
-            'quantity' => 'required|integer|min:1|max:10000',
-            'price' => 'required',
-            'description' => 'nullable|string',
-            // 'image'=> 'nullable|image',
-        ]);
+        $validated = $this->validate();
 
-        $this->product->update(array_merge($validated));
+        $this->product->update($validated);
+        
+        return redirect()->route('products.show', $this->product->id);
     }
 
     public function render()
