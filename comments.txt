@@ -65,7 +65,7 @@ Create new product
                     <div class="mb-3 row">
                         <label for="description" class="col-md-4 col-form-label text-md-end text-start">Product Image</label>
                         <div class="col-md-6">
-                            <input type="file" class="form-control @error('image') is-invalid @enderror" wire:model="fileUpload" id="fileUpload" >
+                            <input type="file" class="form-control @error('image') is-invalid @enderror" wire:model="image" id="image" >
                             @error('image')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -152,7 +152,7 @@ Edit Product
                     <div class="mb-3 row">
                         <label for="description" class="col-md-4 col-form-label text-md-end text-start">Product Image</label>
                         <div class="col-md-6">
-                            <input type="file" wire:model="fileUpload" id="" class="form-control @error('image') is-invalid @enderror">
+                            <input type="file" wire:model="image" id="image" class="form-control @error('image') is-invalid @enderror">
                             @error('image')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror

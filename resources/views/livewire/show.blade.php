@@ -43,7 +43,7 @@
                 <div class="row">
                     <label for="description" class="col-md-4 col-form-label text-md-end text-start"><strong>Product Image:</strong></label>
                     <div class="col-md-6" style="line-height:35px;">
-                        <img src="{{ $product->image }}" alt="alt" style="height: 100px; width: 100px;">
+                        <img src="{{ asset($product->image) }}" alt="alt" style="height: 100px; width: 100px;">
                     </div>
                 </div>
             </div>

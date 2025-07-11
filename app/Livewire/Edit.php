@@ -4,15 +4,20 @@ namespace App\Livewire;
 
 use App\Models\Product;
 use Livewire\Component;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class Edit extends Component
 {
+    use WithFileUploads;
+
     public $product;
     public $code = '';
     public $name = '';
     public $quantity = '';
     public $price = '';
     public $description = '';
+    public $image;
 
     public function mount(Product $product)
     {
@@ -22,6 +27,7 @@ class Edit extends Component
         $this->quantity = $product->quantity;
         $this->price = $product->price;
         $this->description = $product->description ?? '';
+        $this->image = $product->image;
     }
 
     public function save()
@@ -32,9 +38,15 @@ class Edit extends Component
             'quantity' => 'required|integer|min:1|max:10000',
             'price' => 'required|numeric',
             'description' => 'nullable|string',
+            'image' => 'nullable|image',
         ]);
-
-        $this->product->update($validated);
+        if ($this->image === null) {
+            $this->product->update($validated);
+        } else {
+            $path = $this->image->storePublicly(path: 'photos', options: 'public');
+            $path = Storage::url($path);
+            $this->product->update(array_merge($validated, ['image' => $path]));
+        }
         
         session()->flash('success', 'Product updated successfully.');
         return $this->redirect(route('products.show', $this->product->id), navigate: true);

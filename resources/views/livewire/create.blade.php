@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <form wire:submit="save">
+                <form wire:submit="save" enctype="multipart/form-data">
                     <div class="mb-3 row">
                         <label for="code" class="col-md-4 col-form-label text-md-end text-start">Code</label>
                         <div class="col-md-6">
@@ -57,6 +57,15 @@
                         <div class="col-md-6">
                             <textarea class="form-control @error('description') is-invalid @enderror" id="description" wire:model="description"></textarea>
                             @error('description')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="description" class="col-md-4 col-form-label text-md-end text-start">Product Image</label>
+                        <div class="col-md-6">
+                            <input type="file" class="form-control @error('image') is-invalid @enderror" wire:model="image" id="image" >
+                            @error('image')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
